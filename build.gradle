@@ -1,0 +1,29 @@
+plugins {
+    id 'application'
+}
+
+// No external libraries: the app uses only the JDK (Swing), so it builds offline.
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'zm.mulungushi.lodge.App'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Quick self-check of the services (no JUnit download needed):  gradle selfCheck
+tasks.register('selfCheck', JavaExec) {
+    group = 'verification'
+    description = 'Runs the service self-checks'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'zm.mulungushi.lodge.SelfCheck'
+}
